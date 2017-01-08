@@ -927,7 +927,7 @@ void loopThrFunc()
 					  //ѕродолжаем удерживать текущий путь.
 
 					  {
-						  if (PaircraftData->alt < STAR.FLTransit)
+						  if (PaircraftData->alt < 4500)
 						  {
 							  setNGXDataDouble(EVT_EFIS_CPT_BARO, AircraftData.Pressure, &AircraftData.PressureSet, 0.01, -0.01, TRUE);
 						  }
