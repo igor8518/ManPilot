@@ -16,7 +16,7 @@
 #include <stdio.h>
 
 //#include <gdiplustypes.h>
-
+bool f = false;
 Status WINGDIPAPI GdipDrawLineLED(GpGraphics *graphics, GpPen *pen, REAL x1, REAL y1, REAL x2, REAL y2)
 {
 	ARGB color;	
@@ -30,9 +30,9 @@ Status WINGDIPAPI GdipDrawLineLED(GpGraphics *graphics, GpPen *pen, REAL x1, REA
 		
 		
 		swprintf(s, 100, L"DrawLine (%d, %d, %d)", cPen.GetRed(), cPen.GetGreen(), cPen.GetBlue());
-		PrintOnConsole(s);
+		//PrintOnConsole(s);
 		swprintf(s, 100, L" - POS: (%f,%f) - (%f,%f)\n", x1, y1, x2, y2);
-		PrintOnConsole(s);
+		//PrintOnConsole(s);
 		/*PData= *PPData;
 		swprintf(s, 100, L" - FD HOR: (%.2f)\n", PData->HorBar);
 		PrintOnConsole(s);*/
@@ -54,16 +54,37 @@ void CALLBACK MyDispatchProcDLL(SIMCONNECT_RECV* pData, DWORD cbData, void *pCon
 	
 	if (GetModuleHandleExW(0, L"PMDG_737NGX.dll", &PPMDG))
 	{
+		if (!f)
+		{
+			MessageBoxExW(NULL, L"PMDG 737 Loaded: ", L"DLL Module", MB_ICONINFORMATION, LANG_ENGLISH);
+			f = true;
+		}
+		//PimpGDIP = (impGDIP*)((INT64)PPMDG + 0x3A3F88); 0x19C592
+		PimpGDIP = (impGDIP*)((INT64)PPMDG + 0x3A4F88); 
+		//.idata:00000001803A4F88 ; Imports from gdiplus.dll
+		//.idata:00000001803A4F88;
+		//.idata:00000001803A4F88                 extrn __imp_GdipAddPathLine2 : qword
+		//	.idata : 00000001803A4F88; DATA XREF : GdipAddPathLine2r
+		//	.idata:00000001803A4F88;.rdata:000000018041C938o
+		//PPData = (Data**)((INT64)PPMDG + 0x4a4510);
+		PPData = (Data**)((INT64)PPMDG + 0x4A44F0);
+		//.text:0000000180051689                 nop
+		//.text:000000018005168A                 mov     rcx, [rdi + 308h]; Memory
+		//	.text:0000000180051691                 call    sub_180084850
 
-		//MessageBoxExW(NULL, L"PMDG 737 Loaded: ", L"DLL Module", MB_ICONINFORMATION,LANG_ENGLISH);
-		PimpGDIP = (impGDIP*)((int)PPMDG + 0x2dd760);
-		PPData = (Data**)((int)PPMDG + 0x3950c4);
-		PPMainData = (sMainData**)((int)PPMDG + 0x394618);
-		VirtualProtect(&PimpGDIP->DrawLine1,4,PAGE_READWRITE,&op);
+		//lea     rdx, a58; "58 "
+		//	.text:000000018005116C                 call    sub_180226110
+		//	.text:0000000180051171                 call    sub_180084890
+		//PPMainData = (sMainData**)((INT64)PPMDG + 0x4a3a10);
+		PPMainData = (sMainData**)((INT64)PPMDG + 0x4A39F0);
+		//.text:00000001800511C5                 lea     rdx, a61; "61 "
+		//	.text:00000001800511CC                 call    sub_180226110
+		//	.text:00000001800511D1                 call    sub_18007DF40
+		VirtualProtect(&PimpGDIP->DrawLine1,8,PAGE_READWRITE,&op);
 		PimpGDIP->DrawLine1 = &GdipDrawLineLED;
 		//PimpGDIP->GDIStart = 
 		//WriteProcessMemory()
-		VirtualProtect(&PimpGDIP->DrawLine1, 4, op, &op);
+		//VirtualProtect(&PimpGDIP->DrawLine1, 8, op, &op);
 
 		
 		switch (pData->dwID)
@@ -79,9 +100,9 @@ void CALLBACK MyDispatchProcDLL(SIMCONNECT_RECV* pData, DWORD cbData, void *pCon
 
 																PMainData = *PPMainData;
 																PData = *PPData;
-																int MainA0 = PMainData->a0;
-																ExportData.HorEnabled = *(byte*)((int)PData + (4 * ((3 * MainA0) + 0x210)));
-																ExportData.VerEnabled = *(byte*)((int)PData + (4 * ((3 * MainA0) + 0x216)));
+																INT64 MainB0 = PMainData->b0;
+																ExportData.HorEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x880);
+																ExportData.VerEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x898);
 																ExportData.HorBar = PData->HorBar;
 																ExportData.VerBar = PData->VerBar;
 																hr = SimConnect_SetClientData(hSimConnect, PMDG_ADD_DATA_ID, PMDG_ADD_DATA_DEFINITION, 0, 0, sizeof(ExportData), &ExportData);
@@ -111,11 +132,11 @@ int __stdcall DLLStart(void)
 	HRESULT hr;
 	if (SUCCEEDED(SimConnect_Open(&hSimConnect, "DLL name", NULL, 0, NULL, 0)))
 	{
-		float someFloat = 0.434553;
+		float someFloat = 0.454553;
 		swprintf(s, 50, L"Connected... %.2f", someFloat );
 		
-		CreateConsole();
-		PrintOnConsole(s);
+		//CreateConsole();
+		//PrintOnConsole(s);
 		
 
 		// Place all initialization code for the client in this function

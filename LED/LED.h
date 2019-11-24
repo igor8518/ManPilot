@@ -7,19 +7,19 @@ using namespace Gdiplus;
 //Status WINGDIAPI GdipDrawLineLED(Graphics *graphics, const Pen *pen, REAL x1, REAL y1, REAL x2, REAL y2);
 struct impGDIP
 {
-	int d1[75];
-	void *(DrawLine1);
-	int d2[41];
+	//INT64 d1[94];
+	INT64 d1[94];
+	void *(DrawLine1);	
+	INT64 d2[24];
 	void *(GDIStart);
-	
 } *PimpGDIP;
 
 struct Data
 {
-	int d1[540];
+	INT64 d1[278];
 	double HorBar;
 	//int d2[66];
-	int d2[6];
+	INT64 d2[3];
 	double VerBar;
 } * PData, **PPData; 
 
@@ -34,8 +34,8 @@ struct sExportData
 
 struct sMainData
 {
-	int d1[40];
-	int a0;
+	INT64 d1[22];
+	int b0;
 } MainData, *PMainData, **PPMainData;
 
 
