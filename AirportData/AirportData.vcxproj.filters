@@ -42,6 +42,12 @@
     <ClInclude Include="Extern\AirportData.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="sidstar.tab.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ssfunc.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -65,14 +71,16 @@
     <ClCompile Include="Airport.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="sidstar.cpp">
+    <ClCompile Include="sidstar_1.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="sidstar.tab.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="sidstar.l" />
+    <None Include="sidstar_1.y" />
+    <None Include="sidstar.l" />
   </ItemGroup>
 </Project>

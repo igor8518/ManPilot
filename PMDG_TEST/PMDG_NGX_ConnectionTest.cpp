@@ -867,21 +867,12 @@ void DrawAirport(IAirportData* PAirportData, double Lat, double Lon, double Hed)
 
 VOID CALLBACK TimerProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent, _In_ DWORD dwTime)
 {
-	
 	int ii = 0; //Убрать
-	//while (quit == 0)
-	
 	if (!InTimer)
 	{
-		//SIMCONNECT_DATA_XYZ zeroxyz = { 0, 0, 0 };
-		//SIMCONNECT_DATA_PBH zeropbh = { 0, 0, 0 };
-		
-		//hr = SimConnect_AttachSimObjectToSimObject(hSimConnect, 0, zeroxyz, zeropbh, attach, zeroxyz, zeropbh);
 		InTimer = true;
 		hr = SimConnect_RequestDataOnSimObject(hSimConnect, REQ_AIRCRAFT_USER, DEF_AIRCRAFT_USER, SIMCONNECT_OBJECT_ID_USER, SIMCONNECT_PERIOD_ONCE);
-
 		hr = SimConnect_CallDispatch(hSimConnect, MyDispatchProc, NULL);
-		//Sleep(1000);
 		aircraftData* PaircraftData = &AircraftData;
 		if (PAirportData == NULL)
 		{
@@ -895,7 +886,6 @@ VOID CALLBACK TimerProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent, _
 
 				}
 				//AirportList ApList = PAirportData->GetNearAirport(57.904581, 56.002164);
-				
 				//AddWayPoint(Path.at(Path.size() - 1).Lon, Path.at(Path.size() - 1).Lat, 1750, HEADINGUNTILALT, "(1750)", HeadTakeOff.EH, 0, 180.0);
 			}
 		}
@@ -973,7 +963,7 @@ VOID CALLBACK TimerProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ UINT_PTR idEvent, _
 			if (DateTime::Now < Dt)
 			{
 				AddText("MODE: " + "START" + "\n" + DateTime::Now, true);
-				FW = true;
+			  FW = true;
 				break;
 			}
 			

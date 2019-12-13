@@ -99,7 +99,7 @@ namespace PMDG_TEST {
 	{
 		std::string STARName = "";
 		std::vector<WayPointA>* wayPoint = new std::vector<WayPointA>();
-		int i, j, r, r2, t, t2;
+		int i, j, j1, r, r2, t, t2;
 		bool FindStar = false;
 		bool FindAppr = false;
 		for (j = 0; j < PAirportData->GetAirport()->sidstar->APPROACHES->size(); j++)
@@ -194,13 +194,13 @@ namespace PMDG_TEST {
 							{
 								if (PAirportData->GetAirport()->sidstar->STARS->at(i).TRANSITIONS->at(t2).WayPoints->at(0).FIXName == WP->at(WP->size() - 2).ICAO)
 								{
-									for (j = 0; j < PAirportData->GetAirport()->sidstar->APPROACHES->size(); j++)
+									for (j1 = 0; j1 < PAirportData->GetAirport()->sidstar->APPROACHES->size(); j1++)
 									{
-										for (r = 0; r < PAirportData->GetAirport()->sidstar->APPROACHES->at(j).Runways->size(); r++)
+										for (r = 0; r < PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).Runways->size(); r++)
 										{
-											if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j).Runways->at(r) == runway->Name)
+											if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).Runways->at(r) == runway->Name)
 											{
-												if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j).WayPoints->at(0).FIXName ==
+												if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).WayPoints->at(0).FIXName ==
 													PAirportData->GetAirport()->sidstar->STARS->at(i).WayPoints->at(PAirportData->GetAirport()->sidstar->STARS->at(i).WayPoints->size() - 1).FIXName)
 												{
 													t = -1;
@@ -210,16 +210,16 @@ namespace PMDG_TEST {
 												}
 												else
 												{
-													if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j).TRANSITIONS != NULL)
+													if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).TRANSITIONS != NULL)
 													{
-														for (t = 0; t < PAirportData->GetAirport()->sidstar->APPROACHES->at(j).TRANSITIONS->size(); t++)
+														for (t = 0; t < PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).TRANSITIONS->size(); t++)
 
 														{
-															std::string ss1 = PAirportData->GetAirport()->sidstar->APPROACHES->at(j).TRANSITIONS->at(t).WayPoints->at(0).FIXName;
+															std::string ss1 = PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).TRANSITIONS->at(t).WayPoints->at(0).FIXName;
 															std::string ss2 = PAirportData->GetAirport()->sidstar->STARS->at(i).WayPoints->at(PAirportData->GetAirport()->sidstar->STARS->at(i).WayPoints->size() - 1).FIXName;
-															if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j).TRANSITIONS != NULL)
+															if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).TRANSITIONS != NULL)
 															{
-																if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j).TRANSITIONS->at(t).WayPoints->at(0).FIXName ==
+																if (PAirportData->GetAirport()->sidstar->APPROACHES->at(j1).TRANSITIONS->at(t).WayPoints->at(0).FIXName ==
 																	PAirportData->GetAirport()->sidstar->STARS->at(i).WayPoints->at(PAirportData->GetAirport()->sidstar->STARS->at(i).WayPoints->size() - 1).FIXName)
 																{
 																	FindAppr = true;

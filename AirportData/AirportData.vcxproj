@@ -54,7 +54,9 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\..\..\Downloads\win_flex_bison_custom_build_rules\win_flex_bison_custom_build.props" />
+  </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -72,7 +74,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>I:\SDK\P3D\4.4.16.27106\inc\SimConnect;C:\Users\igor8\source\repos\PMDG_AUTO\PMDG_TEST;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\spirit-boost-1.71.0\include\boost;I:\SDK\P3D\4.4.16.27106\inc\SimConnect;C:\Users\igor8\source\repos\PMDG_AUTO\PMDG_TEST;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;$(IncludePath)</IncludePath>
     <LibraryPath>I:\SDK\P3D\4.4.16.27106\lib\SimConnect;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -83,8 +85,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\GAMES\LM\SDK\4.1.7.22841\inc\SimConnect;C:\Users\igor8\source\repos\PMDG_AUTO\PMDG_TEST;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GAMES\LM\SDK\4.1.7.22841\lib\SimConnect;$(LibraryPath)</LibraryPath>
+    <IncludePath>I:\SDK\P3D\4.4.16.27106\inc\SimConnect;C:\Users\igor8\source\repos\PMDG_AUTO\PMDG_TEST;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;$(IncludePath)</IncludePath>
+    <LibraryPath>I:\SDK\P3D\4.4.16.27106\lib\SimConnect;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -93,6 +95,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;AIRPORTDATA_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/D_CRT_NONSTDC_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,6 +143,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;AIRPORTDATA_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/D_CRT_NONSTDC_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,6 +160,8 @@
     <ClInclude Include="Extern\AirportData.h" />
     <ClInclude Include="ReadStream.h" />
     <ClInclude Include="sidstar.h" />
+    <ClInclude Include="sidstar.tab.h" />
+    <ClInclude Include="ssfunc.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="unistd.h" />
@@ -167,7 +173,8 @@
     <ClCompile Include="BGLXData.cpp" />
     <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="sidstar.cpp" />
+    <ClCompile Include="sidstar.tab.cpp" />
+    <ClCompile Include="sidstar_1.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -178,12 +185,40 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <CustomBuild Include="sidstar.l">
+    <None Include="sidstar.l">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">flex++.exe -osidstar.cpp sidstar.l</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sidstar.cpp</Outputs>
-    </CustomBuild>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)_1.cpp</OutputFile>
+      <Cpp Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</Cpp>
+      <CppClassName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </CppClassName>
+      <HeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename)_1.h</HeaderFile>
+      <Wincompat Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</Wincompat>
+      <Noline Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</Noline>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</Debug>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="sidstar_1.y">
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Debug>
+      <Report Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Report>
+      <ReportFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ReportFile>
+      <Warnings Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Warnings>
+      <OutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sidstar.tab.cpp</OutputFile>
+      <DefinesFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">sidstar.tab.h</DefinesFile>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">-D -T %(AdditionalOptions)</AdditionalOptions>
+      <FileType>Document</FileType>
+      <Debug Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</Debug>
+      <Verbose Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</Verbose>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\..\Downloads\win_flex_bison_custom_build_rules\win_flex_bison_custom_build.targets" />
+  </ImportGroup>
 </Project>

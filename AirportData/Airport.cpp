@@ -3,18 +3,21 @@
 //#include "../../../../../../Program%20Files%20(x86)/Windows%20Kits/10/Include/10.0.17763.0/ucrt/stdio.h"
 //#include "sidstar.h"
 //#include "sidstar.h"
+//#include <ssfunc.h>
 
 
 
-
-
-extern FILE* yyin, *yyout;
+extern FILE* yyin, * yyout;
 extern int ScanToken();
+extern int yyparse();
 extern sfix pfix;
 extern sroute proute;
 extern srnwsid prnwsid;
 extern ssid psid;
 extern ssidstar sidstar2;
+extern int yydebug;
+extern SidStar* gSidStar;
+
 
 
 Airport::Airport(BGLXData* BGLX, DWORD AirportDataOffset, IAirportData* AirportData)
@@ -932,13 +935,21 @@ HRESULT Airport::GetSIDSTAR()
 	//ReadStreamText* SIDSTARFile = new ReadStreamText(AirportData->RootSim + L"PMDG\\SIDSTARS\\" + std::wstring(ICAO.begin(), ICAO.end()) + L".txt");
 	std::string* str = new std::string();
 	_wfopen_s(&yyin, (AirportData->RootSim + L"PMDG\\SIDSTARS\\" + std::wstring(ICAO.begin(), ICAO.end()) + L".txt").c_str(),L"r");
+  _wfopen_s(&yyout, (AirportData->RootSim + L"PMDG\\SIDSTARS\\" + std::wstring(ICAO.begin(), ICAO.end()) + L".out").c_str(), L"w");
 
-	while (!feof(yyin))
+	
+  while (!feof(yyin))
 	{
-		int tokenId = ScanToken();
-		if (tokenId == 0)
+    //FlexLexer* lexer = new yyFlexLexer; 
+    //while (lexer->yylex() != 0);
+		//int tokenId = ScanToken();
+    yydebug = 0;
+ 
+		if (yyparse() == 1)
 		{
-			sidstar = new SIDSTAR();
+      //sidstar = gSidStar;
+      sidstar2 = *(ssidstar*)gSidStar;
+		  sidstar = new SIDSTAR();
 			if (sidstar->FIXES == NULL)
 			{
 				sidstar->FIXES = new std::vector<FIXX>();
@@ -1149,7 +1160,7 @@ HRESULT Airport::GetSIDSTAR()
 			// "HOLDATFIXRIGHTTURNINBOUNDCOURSEALTSPEEDLEGTIME")			
 			// "HOLDATFIXRIGHTTURNINBOUNDCOURSEALTSPEED")		
 			
-
+     
 			return NOERROR;
 		}
 		/*if (tokenId == TOKEN_ERROR)
@@ -1161,6 +1172,7 @@ HRESULT Airport::GetSIDSTAR()
 			ExecuteCommand(interpreter, static_cast<Token>(tokenId));
 		}*/
 	}
+  
 	/*while (!SIDSTARFile->Read(str, 0))
 	{		
 		if (*str == "FIXES")

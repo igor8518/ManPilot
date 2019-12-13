@@ -8,7 +8,9 @@
 #include <stdio.h>
 //#include "RobotTokens.h"
 #include <math.h>
-
+//#include <sidstar_tokens.h>
+//#include <stdafx.h>
+#include "sidstar_1.tab.h"
 
 // Flex использует макрос YY_DECL как основу объявления функции, сканирующей следующий токен.
 // По умолчанию значение макроса YY_DECL равно `int yylex()`
@@ -17,7 +19,7 @@
 #define fileno _fileno
 #define isatty _isatty
 int sign;
-float lat, lon;
+float lat, lon;		
 
 
 enum TYPEROUTE
@@ -111,13 +113,16 @@ std::string stemp;
 "GATE".*\n 
 "ENDGATES".*\n 
 [ \n\t]
-"FIXES" {sidstar2.efixes = new std::vector<sfix>(); BEGIN(fixes);}
+"FIXES" {
+  sidstar2.efixes = new std::vector<sfix>(); 
+  BEGIN(fixes); 
+}
 	<fixes>FIX {BEGIN(fix);}
 		
 		<fix>LATLON {BEGIN(latlon);}
 			<latlon>[N|S] {if (yytext == "N") {sign = 0;} else {sign = 1;}; BEGIN(ns);}
 				<ns>[0-9]+ {lat = atof(yytext);BEGIN(degreeslat);}
-					<degreeslat>[0-9]+[\.]?[0-9]* {float t; t = atof(yytext); lat = lat + t/60.0; if(!sign){lat=-lat;}; pfix.lat = lat; BEGIN(latlon);}
+					<degreeslat>[0-9]+[\.]?[0-9]* {float t; yylval.string = yytext; lat = lat + t/60.0; if(!sign){lat=-lat;}; pfix.lat = lat; BEGIN(latlon);}
 			<latlon>[E|W] {if (yytext == "E") {sign = 0;} else {sign = 1;}; BEGIN(ew);}
 				<ew>[0-9]+ {lon = atof(yytext);BEGIN(degreeslon);}
 					<degreeslon>[0-9]+[\.]?[0-9]* {float t; t = atof(yytext); lon = lon + t/60.0; if(!sign){lon=-lon;}; pfix.lon = lon; printf(" lat: %f, lon: %f\n",lat,lon); sidstar2.efixes->push_back(pfix); BEGIN(fixes);}
