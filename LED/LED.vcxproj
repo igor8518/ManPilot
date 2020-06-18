@@ -74,9 +74,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>I:\SDK\P3D\4.4.16.27106\inc\SimConnect;$(IncludePath)</IncludePath>
-    <LibraryPath>I:\SDK\P3D\4.4.16.27106\lib\SimConnect;$(LibraryPath)</LibraryPath>
-    <OutDir>C:\GAMES\LM\P3Dv4\Modules\LED\</OutDir>
+    <IncludePath>C:\GAMES\LM\SDK\5.0.21.34709\inc\SimConnect;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GAMES\LM\SDK\5.0.21.34709\lib\SimConnect;$(LibraryPath)</LibraryPath>
+    <OutDir>C:\GAMES\LM\P3Dv5\Modules\LED\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

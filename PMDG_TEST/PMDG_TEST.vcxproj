@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{12862E25-BB95-4689-9481-CEB77410FBC6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,8 +71,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;C:\GAMES\LM\P3Dv4\PMDG\PMDG 737 NGX\SDK;I:\SDK\P3D\4.4.16.27106\inc\SimConnect;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\igor8\source\repos\PMDG_AUTO\x64\Debug;I:\SDK\P3D\4.4.16.27106\lib\SimConnect;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;C:\GAMES\LM\P3Dv5\PMDG\PMDG 737 NGXu\SDK;C:\GAMES\LM\SDK\5.0.21.34709\inc\SimConnect;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\igor8\source\repos\PMDG_AUTO\x64\Debug;C:\GAMES\LM\SDK\5.0.21.34709\lib\SimConnect;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -170,7 +170,6 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="PMDG_NGX_SDK.h" />
     <ClInclude Include="PMDG_NGX.h" />
     <ClInclude Include="Route.h" />
     <ClInclude Include="Simmath.h" />

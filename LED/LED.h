@@ -8,7 +8,7 @@ using namespace Gdiplus;
 struct impGDIP
 {
 	//INT64 d1[94];
-	INT64 d1[94];
+	//INT64 d1[88];
 	void *(DrawLine1);	
 	INT64 d2[24];
 	void *(GDIStart);
@@ -16,10 +16,11 @@ struct impGDIP
 
 struct Data
 {
-	INT64 d1[278];
+	//INT64 d1[278];
+  INT64 d1[288];
 	double HorBar;
 	//int d2[66];
-	INT64 d2[3];
+	INT64 d2[33];
 	double VerBar;
 } * PData, **PPData; 
 
@@ -34,16 +35,20 @@ struct sExportData
 
 struct sMainData
 {
-	INT64 d1[22];
+	INT64 d1[23];
 	int b0;
 } MainData, *PMainData, **PPMainData;
 
+typedef Status(WINGDIPAPI* LPDRAWLINEL)(GpGraphics*, GpPen*, REAL, REAL, REAL, REAL);
 
 LPWSTR s;
 HRESULT hr;
 HANDLE  hSimConnect = NULL;
 HANDLE hOut = NULL;
 HMODULE PPMDG;
+HMODULE GDIP;
+LPDRAWLINEL lpfnDrawLinel;
+LPDRAWLINEL lpfnDrawLinelOrig;
 
 #define PMDG_ADD_DATA_NAME			"PMDG_Additional_Data"
 #define PMDG_ADD_DATA_ID			0x4E877777

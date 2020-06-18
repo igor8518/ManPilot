@@ -23,7 +23,7 @@
     <ProjectGuid>{02B16F1C-D1BB-4B28-B062-D479977DBA67}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AirportData</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,8 +74,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\spirit-boost-1.71.0\include\boost;I:\SDK\P3D\4.4.16.27106\inc\SimConnect;C:\Users\igor8\source\repos\PMDG_AUTO\PMDG_TEST;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;$(IncludePath)</IncludePath>
-    <LibraryPath>I:\SDK\P3D\4.4.16.27106\lib\SimConnect;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\spirit-boost-1.71.0\include\boost;C:\GAMES\LM\SDK\5.0.21.34709\inc\SimConnect;C:\Users\igor8\source\repos\PMDG_AUTO\PMDG_TEST;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData;C:\Users\igor8\source\repos\PMDG_AUTO\AirportData\Extern;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GAMES\LM\SDK\5.0.21.34709\lib\SimConnect;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>

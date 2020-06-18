@@ -25,7 +25,7 @@ Status WINGDIPAPI GdipDrawLineLED(GpGraphics *graphics, GpPen *pen, REAL x1, REA
 
 	
 	WCHAR  s[1024];
-	if (cPen.GetGreen() == 141)
+	if ((cPen.GetGreen() <= 133) && (cPen.GetGreen() >= 124))
 	{
 		
 		
@@ -67,7 +67,8 @@ void CALLBACK MyDispatchProcDLL(SIMCONNECT_RECV* pData, DWORD cbData, void *pCon
 		//	.idata : 00000001803A4F88; DATA XREF : GdipAddPathLine2r
 		//	.idata:00000001803A4F88;.rdata:000000018041C938o
 		//PPData = (Data**)((INT64)PPMDG + 0x4a4510);
-		PPData = (Data**)((INT64)PPMDG + 0x4A44F0);
+		//PPData = (Data**)((INT64)PPMDG + 0x4A44F0);
+    PPData = (Data**)((INT64)PPMDG + 0x607928);
 		//.text:0000000180051689                 nop
 		//.text:000000018005168A                 mov     rcx, [rdi + 308h]; Memory
 		//	.text:0000000180051691                 call    sub_180084850
@@ -98,11 +99,11 @@ void CALLBACK MyDispatchProcDLL(SIMCONNECT_RECV* pData, DWORD cbData, void *pCon
 										 case EVENT_6HZ:	// Track aircraft changes
 										 {
 
-																PMainData = *PPMainData;
+																//PMainData = *PPMainData;
 																PData = *PPData;
-																INT64 MainB0 = PMainData->b0;
-																ExportData.HorEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x880);
-																ExportData.VerEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x898);
+																//INT64 MainB0 = PMainData->b0;
+																//ExportData.HorEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x880);
+																//ExportData.VerEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x898);
 																ExportData.HorBar = PData->HorBar;
 																ExportData.VerBar = PData->VerBar;
 																hr = SimConnect_SetClientData(hSimConnect, PMDG_ADD_DATA_ID, PMDG_ADD_DATA_DEFINITION, 0, 0, sizeof(ExportData), &ExportData);
@@ -123,6 +124,81 @@ void CALLBACK MyDispatchProcDLL(SIMCONNECT_RECV* pData, DWORD cbData, void *pCon
 		
 		
 	}
+  if (GetModuleHandleExW(0, L"PMDG_737NGXu.dll", &PPMDG))
+  {
+    if (!f)
+    {
+      MessageBoxExW(NULL, L"PMDG 737NGXu Loaded: ", L"DLL Module", MB_ICONINFORMATION, LANG_ENGLISH);
+      f = true;
+    }
+    //PimpGDIP = (impGDIP*)((INT64)PPMDG + 0x3A3F88); //0x19C592
+    //bool hrb = GetModuleHandleExW(0, L"GDIPlus.dll", &GDIP);
+    //lpfnDrawLinelOrig = (LPDRAWLINEL)GetProcAddress(GDIP, "GdipDrawLinel");
+    
+    PimpGDIP = (impGDIP*)((INT64)PPMDG + 0x455800);
+    //.idata:00000001803A4F88 ; Imports from gdiplus.dll
+    //.idata:00000001803A4F88;
+    //.idata:00000001803A4F88                 extrn __imp_GdipAddPathLine2 : qword
+    //	.idata : 00000001803A4F88; DATA XREF : GdipAddPathLine2r
+    //	.idata:00000001803A4F88;.rdata:000000018041C938o
+    //PPData = (Data**)((INT64)PPMDG + 0x4a4510);
+    //PPData = (Data**)((INT64)PPMDG + 0x4A44F0);
+    PPData = (Data**)((INT64)PPMDG + 0x607928);
+    //.text:0000000180051689                 nop
+    //.text:000000018005168A                 mov     rcx, [rdi + 308h]; Memory
+    //	.text:0000000180051691                 call    sub_180084850
+
+    //lea     rdx, a58; "58 "
+    //	.text:000000018005116C                 call    sub_180226110
+    //	.text:0000000180051171                 call    sub_180084890
+    //PPMainData = (sMainData**)((INT64)PPMDG + 0x4a3a10);
+    PPMainData = (sMainData**)((INT64)PPMDG + 0x607878);
+    //.text:00000001800511C5                 lea     rdx, a61; "61 "
+    //	.text:00000001800511CC                 call    sub_180226110
+    //	.text:00000001800511D1                 call    sub_18007DF40
+    VirtualProtect(&PimpGDIP->DrawLine1, 8, PAGE_READWRITE, &op);
+    PimpGDIP->DrawLine1 = &GdipDrawLineLED;
+    //PimpGDIP->GDIStart = 
+    //WriteProcessMemory()
+    //VirtualProtect(&PimpGDIP->DrawLine1, 8, op, &op);
+
+
+    switch (pData->dwID)
+    {
+    case SIMCONNECT_RECV_ID_EVENT:
+    {
+      SIMCONNECT_RECV_EVENT* evt = (SIMCONNECT_RECV_EVENT*)pData;
+
+      switch (evt->uEventID)
+      {
+      case EVENT_6HZ:	// Track aircraft changes
+      {
+
+        PMainData = *PPMainData;
+        PData = *PPData;
+        INT64 MainB0 = PMainData->b0;
+        ExportData.HorEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x8D0);
+        ExportData.VerEnabled = *(byte*)((INT64)PData + (12 * MainB0) + 0x8E8);
+        ExportData.HorBar = PData->HorBar;
+        ExportData.VerBar = PData->VerBar;
+        hr = SimConnect_SetClientData(hSimConnect, PMDG_ADD_DATA_ID, PMDG_ADD_DATA_DEFINITION, 0, 0, sizeof(ExportData), &ExportData);
+        break;
+      }
+      default:
+      {
+        break;
+      }
+      }
+    }
+
+    default:
+    {
+      break;
+    }
+    }
+
+
+  }
 }
 
 

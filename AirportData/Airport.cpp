@@ -928,23 +928,13 @@ std::string Airport::GetTypeNameFromPoint(sroute point)
 	}
 	return name;
 }
-HRESULT Airport::GetSIDSTAR()
-{
+HRESULT Airport::GetSIDSTAR() {
 	std::string ICAO = BGLXData::DecodeICAO(PAirportInformation->ICAO);
-
-	//ReadStreamText* SIDSTARFile = new ReadStreamText(AirportData->RootSim + L"PMDG\\SIDSTARS\\" + std::wstring(ICAO.begin(), ICAO.end()) + L".txt");
 	std::string* str = new std::string();
 	_wfopen_s(&yyin, (AirportData->RootSim + L"PMDG\\SIDSTARS\\" + std::wstring(ICAO.begin(), ICAO.end()) + L".txt").c_str(),L"r");
   _wfopen_s(&yyout, (AirportData->RootSim + L"PMDG\\SIDSTARS\\" + std::wstring(ICAO.begin(), ICAO.end()) + L".out").c_str(), L"w");
-
-	
-  while (!feof(yyin))
-	{
-    //FlexLexer* lexer = new yyFlexLexer; 
-    //while (lexer->yylex() != 0);
-		//int tokenId = ScanToken();
+  while (!feof(yyin)) {
     yydebug = 0;
- 
 		if (yyparse() == 1)
 		{
       //sidstar = gSidStar;

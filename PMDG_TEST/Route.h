@@ -8,7 +8,6 @@ using namespace System::IO;
 #pragma once
 namespace PMDG_TEST
 {
-
 	ref class  CRoute
 	{
 	public:
